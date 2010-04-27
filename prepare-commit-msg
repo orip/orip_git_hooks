@@ -8,8 +8,11 @@ case "$2,$3" in
    perl -i.bak -pe '
       $ENV{"branch_name"} =~ /^([0-9]*)_/;
       my $ticket = $1;
-      print "#Ticket: #$ticket\n"
-      if $first++ == 0 && $ticket' "$1" ;;
+      print "#$ticket\n"
+      if $first++ == 0 && $ticket' "$1"
+   printf "#\n" >> "$1"
+   git diff --cached -r | sed 's/^/# /' >> "$1"
+          ;;
 
   *) ;;
 
