@@ -1,0 +1,16 @@
+#!/bin/sh
+
+export branch_name=$(git branch --no-color | grep "^*" | sed "s/^\*\s*//")
+
+case "$2,$3" in
+
+ ,|template,)
+   perl -i.bak -pe '
+      $ENV{"branch_name"} =~ /^([0-9]*)_/;
+      my $ticket = $1;
+      print "#Ticket: #$ticket\n"
+      if $first++ == 0 && $ticket' "$1" ;;
+
+  *) ;;
+
+esac
